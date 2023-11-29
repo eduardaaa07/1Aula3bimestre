@@ -66,7 +66,6 @@
             this.txbemail.Name = "txbemail";
             this.txbemail.Size = new System.Drawing.Size(507, 20);
             this.txbemail.TabIndex = 1;
-            this.txbemail.Text = "e";
             this.txbemail.TextChanged += new System.EventHandler(this.txbemail_TextChanged);
             // 
             // lblemail

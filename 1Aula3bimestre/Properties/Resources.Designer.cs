@@ -63,10 +63,30 @@ namespace _1Aula3bimestre.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cafe {
+            get {
+                object obj = ResourceManager.GetObject("cafe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap esboce_o_teste_padrao_ou_o_fundo_sem_emenda_dos_livros_do_vintage_esboco_livro_sem_emenda_de_educacao_para_escola_literatura_e_apple_ilustracao_700_149614705 {
             get {
                 object obj = ResourceManager.GetObject("esboce-o-teste-padrao-ou-o-fundo-sem-emenda-dos-livros-do-vintage-esboco-livro-se" +
                         "m-emenda-de-educacao-para-escola-literatura-e-apple-ilustracao-700-149614705", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap preto {
+            get {
+                object obj = ResourceManager.GetObject("preto", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

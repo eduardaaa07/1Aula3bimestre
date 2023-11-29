@@ -6,39 +6,61 @@ using System.Threading.Tasks;
 
 namespace _1Aula3bimestre
 {
-    internal class Usuario
+    public class Usuario
     {
         private int _Id;
         private string _Nome;
         private string _Email;
         private string _Senha;
 
-        public Usuario( string nome, string email, string senha)
+        public Usuario( int id, string nome, string email, string senha)
         {
+            Id = id;
             Nome = nome;
             Email = email;
             Senha = senha;
         }
-
+        public Usuario( string nome, string email, string senha)
+        {
+        
+            Nome = nome;
+            Email = email;
+            Senha = senha;
+        }
         public string Nome
         {
-            set { Nome = value; }
+            set {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("O campo nome está vazio!");
+                
+                    _Nome = value;
+            }
             get { return _Nome; }
         }
 
         public string Email
         {
-            set { Email = value; }
+            set {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("O campo email está vazio!");
+
+                _Email = value;
+            }
             get { return _Email; }
         }
         public string Senha
         {
-            set { Senha = value; }
+            set {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("O campo senha está vazio!");
+
+                _Senha = value; 
+            }
             get { return _Senha; }
         }
-        public string ID
+        public int Id
         {
-            set { Id = value; }
+            set { _Id = value; }
             get { return _Id; }
         }
     }

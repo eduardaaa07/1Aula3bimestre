@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,42 +22,29 @@ namespace _1Aula3bimestre
         private void UpdateListView()
         {
             listView1.Items.Clear();
-
-            Conexao conn = new Conexao();
-            SqlCommand sqlCom = new SqlCommand();
-
-            sqlCom.Connection = conn.ReturnConnection();
-            sqlCom.CommandText = "SELECT * FROM usuario";
-
+           
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            List<Usuario> users = usuarioDAO.SelectUser();
+           
             try
             {
-                SqlDataReader dr = sqlCom.ExecuteReader();
+                foreach (Usuario usuario in users) {
 
-                //Enquanto for possível continuar a leitura das linhas que foram retornadas na consulta, execute.
-                while (dr.Read())
-                {
-                    int id = (int)dr["Id"];
-                    string usuario= (string)dr["Usuario"];
-                    string email = (string)dr["Email"];
-                    string senha = (string)dr["Senha"];
-                    
-                    ListViewItem lv = new ListViewItem(id.ToString());
-                    lv.SubItems.Add(usuario);
-                    lv.SubItems.Add(email);
-                    lv.SubItems.Add(senha);
+                    ListViewItem lv = new ListViewItem(usuario.Id.ToString());
+                    lv.SubItems.Add(usuario.Nome);
+                    lv.SubItems.Add(usuario.Email);
+                    lv.SubItems.Add(usuario.Senha);
                     listView1.Items.Add(lv);
+                
 
                 }
-                dr.Close();
+                
             }
             catch (Exception err)
             {
                 MessageBox.Show(err.Message);
             }
-            finally
-            {
-                conn.CloseConnection();
-            }
+           
         }
 
 
@@ -69,29 +57,22 @@ namespace _1Aula3bimestre
 
         private void btnmessage_Click_1(object sender, EventArgs e)
         {
-           Conexao connection = new Conexao();
-            SqlCommand sqlCommand = new SqlCommand();
-
-            sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"INSERT INTO usuario VALUES
-            (@Email, @Usuario, @Senha)";
-
-            sqlCommand.Parameters.AddWithValue("@Email", txbemail.Text);
-            sqlCommand.Parameters.AddWithValue("@Usuario", txbusuario.Text);
-            sqlCommand.Parameters.AddWithValue("@Senha", txbsenha.Text);
-
-            sqlCommand.ExecuteNonQuery();
-
-            MessageBox.Show("Cadastrado com sucesso", 
-                "AVISO", 
+            Usuario usuario = new Usuario(txbemail.Text,
+            txbusuario.Text,
+            txbsenha.Text);
+          UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarioDAO.insertUsuario(usuario);
+               
+                MessageBox.Show("Cadastrado com sucesso",
+                "AVISO",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 
             txbemail.Clear();
             txbusuario.Clear();
-            txbsenha.Clear();                                                                                                    
+            txbsenha.Clear();
 
-            UpdateListView();   
+            UpdateListView();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -101,21 +82,11 @@ namespace _1Aula3bimestre
 
         private void btmedt_Click(object sender, EventArgs e)
         {
-            Conexao connection = new Conexao();
-            SqlCommand sqlCommand = new SqlCommand();
-
-            sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"UPDATE  usuario SET
-            Email = @Email,
-            Usuario = @Usuario,
-            Senha = @Senha
-            WHERE Id = @id";
-
-            sqlCommand.Parameters.AddWithValue("@Email", txbemail.Text);
-            sqlCommand.Parameters.AddWithValue("@Usuario", txbusuario.Text);
-            sqlCommand.Parameters.AddWithValue("@Senha", txbsenha.Text);
-            sqlCommand.Parameters.AddWithValue("@id", Id);
-            sqlCommand.ExecuteNonQuery();
+            Usuario usuario = new Usuario(txbemail.Text,
+             txbusuario.Text,
+             txbsenha.Text);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarioDAO.EditUsuario(usuario);
 
             MessageBox.Show("Cadastrado com sucesso",
                 "AVISO",
@@ -137,11 +108,29 @@ namespace _1Aula3bimestre
             txbemail.Text = listView1.Items[index].SubItems[1].Text;
             txbusuario.Text = listView1.Items[index].SubItems[2].Text;
             txbsenha.Text = listView1.Items[index].SubItems[3].Text;
-           
+
         }
 
         private void btnexcluir_Click(object sender, EventArgs e)
         {
+            Conexao connection = new Conexao();
+            SqlCommand sqlCommand = new SqlCommand();
+
+            sqlCommand.Connection = connection.ReturnConnection();
+            sqlCommand.CommandText = @"DELETE Livro WHERE ID = @iD";
+            sqlCommand.Parameters.AddWithValue("@id", Id);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Erro: Problemas ao excluir usuário no banco.\n" + err.Message);
+            }
+            finally
+            {
+                connection.CloseConnection();
+            }
             txbemail.Clear();
             txbusuario.Clear();
             txbsenha.Clear();
