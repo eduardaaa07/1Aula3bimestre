@@ -107,28 +107,43 @@ namespace _1Aula3bimestre
             Conexao connection = new Conexao();
             SqlCommand sqlCommand = new SqlCommand();
 
-            sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"UPDATE usuario 
-                               SET Email = @Email, Usuario = @Usuario, Senha = @Senha
-                               WHERE Id = @Id";
-
-            sqlCommand.Parameters.AddWithValue("@Email", usuario.Email);
-            sqlCommand.Parameters.AddWithValue("@Usuario", usuario.Nome);
-            sqlCommand.Parameters.AddWithValue("@Senha", usuario.Senha);
-            sqlCommand.Parameters.AddWithValue("@Id", usuario.Id);  
-
             try
             {
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.Connection = connection.ReturnConnection();
+                sqlCommand.CommandText = @"UPDATE usuario 
+                                   SET Email = @Email, Usuario = @Usuario, Senha = @Senha
+                                   WHERE Id = @Id";
+
+                sqlCommand.Parameters.AddWithValue("@Email", usuario.Email);
+                sqlCommand.Parameters.AddWithValue("@Usuario", usuario.Nome);
+                sqlCommand.Parameters.AddWithValue("@Senha", usuario.Senha);
+                sqlCommand.Parameters.AddWithValue("@Id", usuario.Id);
+
+                Console.WriteLine("Comando SQL a ser executado: " + sqlCommand.CommandText);
+                Console.WriteLine("Email: " + usuario.Email);
+                Console.WriteLine("Usuário: " + usuario.Nome);
+                Console.WriteLine("Senha: " + usuario.Senha);
+                Console.WriteLine("ID: " + usuario.Id);
+
+                int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                Console.WriteLine("Linhas afetadas: " + rowsAffected);
+            }
+            catch (SqlException sqlEx)
+            {
+                
+                Console.WriteLine("Erro SQL ao editar dados: " + sqlEx.Message);
+                throw;
             }
             catch (Exception ex)
             {
-               
-                throw new Exception("Erro ao editar dados: " + ex.Message);
+                
+                Console.WriteLine("Erro ao editar dados: " + ex.Message);
+                throw;
             }
             finally
             {
-                connection.CloseConnection(); 
+                connection.CloseConnection();
             }
         }
 
