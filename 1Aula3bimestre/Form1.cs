@@ -67,6 +67,9 @@ namespace _1Aula3bimestre
                 "AVISO",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+           
+            Livro livro = new Livro();
+            livro.Show(); 
 
             txbemail.Clear();
             txbusuario.Clear();
@@ -88,7 +91,7 @@ namespace _1Aula3bimestre
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             usuarioDAO.EditUsuario(usuario);
 
-            MessageBox.Show("Cadastrado com sucesso",
+            MessageBox.Show("Dados editados com sucesso!",
                 "AVISO",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -117,7 +120,7 @@ namespace _1Aula3bimestre
             SqlCommand sqlCommand = new SqlCommand();
 
             sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"DELETE Livro WHERE ID = @iD";
+            sqlCommand.CommandText = @"DELETE FROM usuario WHERE ID = @id";
             sqlCommand.Parameters.AddWithValue("@id", Id);
             try
             {

@@ -28,8 +28,8 @@ namespace _1Aula3bimestre
             SqlCommand sqlCommand = new SqlCommand();
 
             sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"DELETE FROM Livro WHERE ID = @id";
-            sqlCommand.Parameters.AddWithValue("@id", ID);
+            sqlCommand.CommandText = @"DELETE FROM Livro WHERE ID = @ID";
+            sqlCommand.Parameters.AddWithValue("@ID", ID);
             try
             {
                 sqlCommand.ExecuteNonQuery();
@@ -51,19 +51,11 @@ namespace _1Aula3bimestre
 
         private void btncadrasto_Click(object sender, EventArgs e)
         {
-            Conexao connection = new Conexao();
-            SqlCommand sqlCommand = new SqlCommand();
-
-            sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"INSERT INTO TB_livro VALUES
-            (@livro, @autor @genero)";
-
-            sqlCommand.Parameters.AddWithValue("@livro", txblivro.Text);
-            sqlCommand.Parameters.AddWithValue("@autor", txbautor.Text);
-            sqlCommand.Parameters.AddWithValue("@genero", txbgenero.Text);
-
-            sqlCommand.ExecuteNonQuery();
-
+            Livro1 livro = new Livro1(ID, txblivro.Text,
+          txbautor.Text,
+          txbgenero.Text);
+            LivroDAO usuarioDAO = new LivroDAO();
+            usuarioDAO.insertLivro(livro);
             MessageBox.Show("Cadastrado do livro feito com sucesso",
             "AVISO",
             MessageBoxButtons.OK,

@@ -4,36 +4,37 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace _1Aula3bimestre
 {
-    public class UsuarioDAO
+    public class LivroDAO
     {
-        public void insertUsuario(Usuario usuario)
+        public void insertLivro(Livro1 livro)
         {
             Conexao connection = new Conexao();
             SqlCommand sqlCommand = new SqlCommand();
 
             sqlCommand.Connection = connection.ReturnConnection();
-            sqlCommand.CommandText = @"INSERT INTO usuario VALUES
-            (@Email, @Usuario, @Senha)";
+            sqlCommand.CommandText = @"INSERT INTO Livro VALUES
+            ( @ID, @livro, @autor, @genero)";
 
-            sqlCommand.Parameters.AddWithValue("@Email", usuario.Email);
-            sqlCommand.Parameters.AddWithValue("@Usuario", usuario.Nome);
-            sqlCommand.Parameters.AddWithValue("@Senha", usuario.Senha);
+            sqlCommand.Parameters.AddWithValue("@livro", livro.livro2);
+            sqlCommand.Parameters.AddWithValue("@autor", livro.Autor);
+            sqlCommand.Parameters.AddWithValue("@genero", livro.Genero);
+            sqlCommand.Parameters.AddWithValue("@ID", livro.ID);
 
             sqlCommand.ExecuteNonQuery();
+
         }
-        public List<Usuario> SelectUser()
+        public List<Livro1> SelectLivro()
         {
             Conexao conn = new Conexao();
             SqlCommand sqlCom = new SqlCommand();
 
             sqlCom.Connection = conn.ReturnConnection();
-            sqlCom.CommandText = "SELECT * FROM usuario";
+            sqlCom.CommandText = "SELECT * FROM Livro";
 
-            List<Usuario> users = new List<Usuario>();
+            List<Livro1> livro = new List<Livro1> ();
             try
             {
                 SqlDataReader dr = sqlCom.ExecuteReader();
@@ -41,18 +42,18 @@ namespace _1Aula3bimestre
                 //Enquanto for possível continuar a leitura das linhas que foram retornadas na consulta, execute.
                 while (dr.Read())
                 {
-                    Usuario objeto = new Usuario(
+                    Livro1 objeto = new Livro1(
 
-                  (int)dr["Id"],
-                  (string)dr["Email"],
-                  (string)dr["Usuario"],
-                  (string)dr["Senha"]
+                  (int)dr["ID"],
+                  (string)dr["Livro"],
+                  (string)dr["Autor"],
+                  (string)dr["Genero"]
                         );
-                    users.Add(objeto);
+                    livro.Add(objeto);
 
                 }
                 dr.Close();
-                return users;
+                return livro;
             }
             catch (Exception err)
             {
@@ -63,27 +64,27 @@ namespace _1Aula3bimestre
             {
                 conn.CloseConnection();
             }
-            return users;
+            return livro;
         }
-        public bool Login( string usuario, string senha)
+        public bool Login(string usuario, string senha)
         {
             Conexao conn = new Conexao();
             SqlCommand sqlCom = new SqlCommand();
 
             sqlCom.Connection = conn.ReturnConnection();
-            sqlCom.CommandText = "SELECT * FROM usuario WHERE " +
-                " Usuario = @Usuario AND senha = @Senha";
+            sqlCom.CommandText = "SELECT * FROM Livro WHERE " +
+                " Livro = @Usuario AND senha = @Senha";
 
             sqlCom.Parameters.AddWithValue("@Usuario", usuario);
             sqlCom.Parameters.AddWithValue("@Senha", senha);
 
-            
+
 
             try
             {
-                SqlDataReader dr = sqlCom.ExecuteReader(); 
+                SqlDataReader dr = sqlCom.ExecuteReader();
 
-               
+
                 if (dr.HasRows)
                 {
                     dr.Close();
@@ -102,7 +103,7 @@ namespace _1Aula3bimestre
             return false;
         }
 
-        public void EditUsuario(Usuario usuario)
+        public void EditLivro(Usuario usuario)
         {
             Conexao connection = new Conexao();
             SqlCommand sqlCommand = new SqlCommand();
@@ -110,14 +111,14 @@ namespace _1Aula3bimestre
             try
             {
                 sqlCommand.Connection = connection.ReturnConnection();
-                sqlCommand.CommandText = "SELECT * FROM usuario WHERE " +
+                sqlCommand.CommandText = "SELECT * FROM Livro WHERE " +
                     " Usuario = @Usuario AND senha = @Senha";
-             
+
 
                 sqlCommand.Parameters.AddWithValue("@Email", usuario.Email);
                 sqlCommand.Parameters.AddWithValue("@Usuario", usuario.Nome);
                 sqlCommand.Parameters.AddWithValue("@Senha", usuario.Senha);
-                sqlCommand.Parameters.AddWithValue("@Id", usuario.Id);
+                sqlCommand.Parameters.AddWithValue("@ID", livro.Id);
 
                 Console.WriteLine("Comando SQL a ser executado: " + sqlCommand.CommandText);
                 Console.WriteLine("Email: " + usuario.Email);
@@ -131,13 +132,13 @@ namespace _1Aula3bimestre
             }
             catch (SqlException sqlEx)
             {
-                
+
                 Console.WriteLine("Erro SQL ao editar dados: " + sqlEx.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                
+
                 Console.WriteLine("Erro ao editar dados: " + ex.Message);
                 throw;
             }
@@ -149,10 +150,4 @@ namespace _1Aula3bimestre
 
     }
 }
-
-
-
-
-
-
 

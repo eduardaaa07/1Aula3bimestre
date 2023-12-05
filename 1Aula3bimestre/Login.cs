@@ -42,7 +42,8 @@ namespace _1Aula3bimestre
 
         private void button1_Click(object sender, EventArgs e)
         {
-          
+            Form1   forms1 = new Form1();
+            forms1.Show();
         }
     }
 }
