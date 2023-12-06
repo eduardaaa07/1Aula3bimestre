@@ -1,6 +1,6 @@
 ﻿namespace _1Aula3bimestre
 {
-    partial class Livro
+    partial class FormLivro
     {
         /// <summary>
         /// Required designer variable.
@@ -166,6 +166,7 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
             // 
             // columnHeader1
             // 
@@ -183,7 +184,7 @@
             // 
             this.columnHeader4.Text = "Genero";
             // 
-            // Livro
+            // FormLivro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -199,8 +200,9 @@
             this.Controls.Add(this.txbautor);
             this.Controls.Add(this.txblivro);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Livro";
+            this.Name = "FormLivro";
             this.Text = "Livro";
+            this.Load += new System.EventHandler(this.Livro_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

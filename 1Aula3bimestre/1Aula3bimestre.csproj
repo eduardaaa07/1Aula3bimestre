@@ -65,13 +65,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Livro.cs">
+    <Compile Include="FormLivro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Livro.Designer.cs">
-      <DependentUpon>Livro.cs</DependentUpon>
+    <Compile Include="FormLivro.Designer.cs">
+      <DependentUpon>FormLivro.cs</DependentUpon>
     </Compile>
-    <Compile Include="Livro1.cs" />
+    <Compile Include="Livro.cs" />
     <Compile Include="LivroDAO.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -89,8 +89,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Livro.resx">
-      <DependentUpon>Livro.cs</DependentUpon>
+    <EmbeddedResource Include="FormLivro.resx">
+      <DependentUpon>FormLivro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

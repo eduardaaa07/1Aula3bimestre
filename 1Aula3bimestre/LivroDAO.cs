@@ -9,24 +9,23 @@ namespace _1Aula3bimestre
 {
     public class LivroDAO
     {
-        public void insertLivro(Livro1 livro)
+        public void insertLivro(Livro livro)
         {
             Conexao connection = new Conexao();
             SqlCommand sqlCommand = new SqlCommand();
 
             sqlCommand.Connection = connection.ReturnConnection();
             sqlCommand.CommandText = @"INSERT INTO Livro VALUES
-            ( @ID, @livro, @autor, @genero)";
+            (@livro, @autor, @genero)";
 
-            sqlCommand.Parameters.AddWithValue("@livro", livro.livro2);
+            sqlCommand.Parameters.AddWithValue("@livro", livro.Nomelivro);
             sqlCommand.Parameters.AddWithValue("@autor", livro.Autor);
             sqlCommand.Parameters.AddWithValue("@genero", livro.Genero);
-            sqlCommand.Parameters.AddWithValue("@ID", livro.ID);
 
             sqlCommand.ExecuteNonQuery();
 
         }
-        public List<Livro1> SelectLivro()
+        public List<Livro> SelectLivro()
         {
             Conexao conn = new Conexao();
             SqlCommand sqlCom = new SqlCommand();
@@ -34,7 +33,7 @@ namespace _1Aula3bimestre
             sqlCom.Connection = conn.ReturnConnection();
             sqlCom.CommandText = "SELECT * FROM Livro";
 
-            List<Livro1> livro = new List<Livro1> ();
+            List<Livro> livro = new List<Livro> ();
             try
             {
                 SqlDataReader dr = sqlCom.ExecuteReader();
@@ -42,7 +41,7 @@ namespace _1Aula3bimestre
                 //Enquanto for possível continuar a leitura das linhas que foram retornadas na consulta, execute.
                 while (dr.Read())
                 {
-                    Livro1 objeto = new Livro1(
+                    Livro objeto = new Livro(
 
                   (int)dr["ID"],
                   (string)dr["Livro"],
@@ -66,44 +65,9 @@ namespace _1Aula3bimestre
             }
             return livro;
         }
-        public bool Login(string usuario, string senha)
-        {
-            Conexao conn = new Conexao();
-            SqlCommand sqlCom = new SqlCommand();
+       
 
-            sqlCom.Connection = conn.ReturnConnection();
-            sqlCom.CommandText = "SELECT * FROM Livro WHERE " +
-                " Livro = @Usuario AND senha = @Senha";
-
-            sqlCom.Parameters.AddWithValue("@Usuario", usuario);
-            sqlCom.Parameters.AddWithValue("@Senha", senha);
-
-
-
-            try
-            {
-                SqlDataReader dr = sqlCom.ExecuteReader();
-
-
-                if (dr.HasRows)
-                {
-                    dr.Close();
-                    return true;
-                }
-            }
-            catch (Exception err)
-            {
-                throw new Exception(" Erro na leitura.\n " +
-                    err.Message);
-            }
-            finally
-            {
-                conn.CloseConnection();
-            }
-            return false;
-        }
-
-        public void EditLivro(Usuario usuario)
+        public void EditLivro(Livro livro)
         {
             Conexao connection = new Conexao();
             SqlCommand sqlCommand = new SqlCommand();
@@ -112,19 +76,18 @@ namespace _1Aula3bimestre
             {
                 sqlCommand.Connection = connection.ReturnConnection();
                 sqlCommand.CommandText = "SELECT * FROM Livro WHERE " +
-                    " Usuario = @Usuario AND senha = @Senha";
+                     "@ID, @Livro, @Autor, @Genero)";
 
-
-                sqlCommand.Parameters.AddWithValue("@Email", usuario.Email);
-                sqlCommand.Parameters.AddWithValue("@Usuario", usuario.Nome);
-                sqlCommand.Parameters.AddWithValue("@Senha", usuario.Senha);
-                sqlCommand.Parameters.AddWithValue("@ID", livro.Id);
+                sqlCommand.Parameters.AddWithValue("@Livro", livro.Nomelivro);
+                sqlCommand.Parameters.AddWithValue("@Autor", livro.Autor);
+                sqlCommand.Parameters.AddWithValue("@Genero", livro.Genero);
+                sqlCommand.Parameters.AddWithValue("@ID", livro.ID);
 
                 Console.WriteLine("Comando SQL a ser executado: " + sqlCommand.CommandText);
-                Console.WriteLine("Email: " + usuario.Email);
-                Console.WriteLine("Usuário: " + usuario.Nome);
-                Console.WriteLine("Senha: " + usuario.Senha);
-                Console.WriteLine("ID: " + usuario.Id);
+                Console.WriteLine("Livro: " + livro.Nomelivro);
+                Console.WriteLine("Autor: " + livro.Autor);
+                Console.WriteLine("Genero: " + livro.Genero);
+                Console.WriteLine("ID: " + livro.ID);
 
                 int rowsAffected = sqlCommand.ExecuteNonQuery();
 

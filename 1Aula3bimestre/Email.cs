@@ -17,7 +17,7 @@ namespace _1Aula3bimestre
 {
     public partial class Email : Form
     {
-        private readonly string DataBase = "nome do banco";
+        private readonly string DataBase = "Livros";
 
         public Email()
         {
@@ -48,7 +48,7 @@ namespace _1Aula3bimestre
                 connection.Open();
 
                 // Consulta SQL para recuperar as informações
-                string query = "SELECT nome, senha FROM Table_1";
+                string query = "SELECT Usuario, Email, Senha FROM usuario";
                 SqlCommand command = new SqlCommand(query, connection);
                 SqlDataReader reader = command.ExecuteReader();
 
@@ -64,13 +64,15 @@ namespace _1Aula3bimestre
 
                     // Cria uma nova tabela e adiciona as informações recuperadas
                     PdfPTable table = new PdfPTable(2);
-                    table.AddCell("nome");
-                    table.AddCell("senha");
+                    table.AddCell("Usuario");
+                    table.AddCell("Email");
+                    table.AddCell("Senha");
 
                     while (reader.Read())
                     {
-                        table.AddCell(reader["nome"].ToString());
-                        table.AddCell(reader["senha"].ToString());
+                        table.AddCell(reader["Usuario"].ToString());
+                        table.AddCell(reader["Email"].ToString());
+                        table.AddCell(reader["Senha"].ToString());
                     }
 
                     // Adiciona a tabela ao documento

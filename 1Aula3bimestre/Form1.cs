@@ -68,7 +68,7 @@ namespace _1Aula3bimestre
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
            
-            Livro livro = new Livro();
+            FormLivro livro = new FormLivro();
             livro.Show(); 
 
             txbemail.Clear();
